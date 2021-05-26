@@ -2781,7 +2781,6 @@ function library:CreateTab(name, list, size, pos)
 	
 	return elements
 end
-return library
 
 
 -------------------------------------------------------------------------------------------------------------------------
