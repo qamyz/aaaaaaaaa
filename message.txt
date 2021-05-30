@@ -1339,6 +1339,556 @@ function library:CreateTab(name, list, size, pos)
 		Open()
 	end
 	
+	function elements:AddDropDynamic(text, functionToGetList, callback)
+		local list = functionToGetList() or {"Error in grabbing list"}
+		local switchactions = {}
+		text = text or "New Dropdown"
+		callback = callback or function() end
+		local ListButton = function() end
+
+		local DropDownOutlinedTextBox = Instance.new("TextBox")
+		local Bar = Instance.new("Frame")
+		local ErrorText = Instance.new("TextLabel")
+		local UIPadding = Instance.new("UIPadding")
+		local TopBarL = Instance.new("Frame")
+		local TopBarR = Instance.new("Frame")
+		local RBar = Instance.new("Frame")
+		local LBar = Instance.new("Frame")
+		local TextHit = Instance.new("TextLabel")
+		local back = Instance.new("TextLabel")
+		local TextSize = Instance.new("TextLabel")
+		local DropDown = Instance.new("ImageLabel")
+		local Holder = Instance.new("Frame")
+		local UIListLayout = Instance.new("UIGridLayout")
+		local UIPadding_2 = Instance.new("UIPadding")
+		local Icon = Instance.new("ImageLabel")
+		
+		DropDownOutlinedTextBox.Name = HttpService:GenerateGUID(false)
+		DropDownOutlinedTextBox.Parent = bodyelements
+		DropDownOutlinedTextBox.Size = UDim2.new(0, 215/1.15, 0, 32.5/1.15)
+		DropDownOutlinedTextBox.AnchorPoint = Vector2.new(0.5,0)
+		DropDownOutlinedTextBox.Position = UDim2.new(0.5, 0, (pixelspacing / 990) * #PhaseOneInstances + 0.0155, 0)
+		DropDownOutlinedTextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		DropDownOutlinedTextBox.BackgroundTransparency = 1
+		DropDownOutlinedTextBox.ZIndex = bodyelements.ZIndex
+		DropDownOutlinedTextBox.ClearTextOnFocus = false
+		DropDownOutlinedTextBox.Font = Enum.Font.SourceSans
+		DropDownOutlinedTextBox.PlaceholderColor3 = Color3.fromRGB(156, 156, 156)
+		DropDownOutlinedTextBox.PlaceholderText = text
+		DropDownOutlinedTextBox.Text = ""
+		DropDownOutlinedTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+		DropDownOutlinedTextBox.TextSize = 15.000
+		DropDownOutlinedTextBox.TextXAlignment = Enum.TextXAlignment.Left
+		
+		Bar.Name = HttpService:GenerateGUID(false)
+		Bar.Parent = DropDownOutlinedTextBox
+		Bar.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		Bar.BorderSizePixel = 0
+		Bar.Position = UDim2.new(0, -6, 1, 0)
+		Bar.Selectable = true
+		Bar.Size = UDim2.new(1, 12, 0, 2)
+		Bar.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		ErrorText.Name = HttpService:GenerateGUID(false)
+		ErrorText.Parent = DropDownOutlinedTextBox
+		ErrorText.AnchorPoint = Vector2.new(1, 0)
+		ErrorText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		ErrorText.BackgroundTransparency = 1.000
+		ErrorText.BorderSizePixel = 0
+		ErrorText.Position = UDim2.new(1, 6, 1, 0)
+		ErrorText.Size = UDim2.new(1, -4, 0, 18)
+		ErrorText.Visible = false
+		ErrorText.Font = Enum.Font.SourceSans
+		ErrorText.Text = "Error"
+		ErrorText.TextColor3 = Color3.fromRGB(255, 33, 33)
+		ErrorText.TextSize = 14.000
+		ErrorText.TextStrokeColor3 = Color3.fromRGB(255, 33, 33)
+		ErrorText.TextStrokeTransparency = 0.940
+		ErrorText.TextXAlignment = Enum.TextXAlignment.Left
+		ErrorText.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		UIPadding.Parent = DropDownOutlinedTextBox
+		UIPadding.PaddingLeft = UDim.new(0, 6)
+		UIPadding.PaddingRight = UDim.new(0, 6)
+		
+		TopBarL.Name = HttpService:GenerateGUID(false)
+		TopBarL.Parent = DropDownOutlinedTextBox
+		TopBarL.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		TopBarL.BorderSizePixel = 0
+		TopBarL.Position = UDim2.new(0, -6, 0, -2)
+		TopBarL.Selectable = true
+		TopBarL.Size = UDim2.new(0, 4, 0, 2)
+		TopBarL.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		TopBarR.Name = HttpService:GenerateGUID(false)
+		TopBarR.Parent = DropDownOutlinedTextBox
+		TopBarR.AnchorPoint = Vector2.new(1, 0)
+		TopBarR.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		TopBarR.BorderSizePixel = 0
+		TopBarR.Position = UDim2.new(1, 6, 0, -2)
+		TopBarR.Selectable = true
+		TopBarR.Size = UDim2.new(1, 8, 0, 2)
+		TopBarR.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		RBar.Name = HttpService:GenerateGUID(false)
+		RBar.Parent = DropDownOutlinedTextBox
+		RBar.AnchorPoint = Vector2.new(1, 0)
+		RBar.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		RBar.BorderSizePixel = 0
+		RBar.Position = UDim2.new(1, 7, 0, -1)
+		RBar.Selectable = true
+		RBar.Size = UDim2.new(0, 2, 1, 2)
+		RBar.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		LBar.Name = HttpService:GenerateGUID(false)
+		LBar.Parent = DropDownOutlinedTextBox
+		LBar.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		LBar.BorderSizePixel = 0
+		LBar.Position = UDim2.new(0, -7, 0, -1)
+		LBar.Selectable = true
+		LBar.Size = UDim2.new(0, 2, 1, 2)
+		LBar.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		TextHit.Name = HttpService:GenerateGUID(false)
+		TextHit.Parent = DropDownOutlinedTextBox
+		TextHit.AnchorPoint = Vector2.new(0, 0.5)
+		TextHit.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		TextHit.BackgroundTransparency = 1.000
+		TextHit.Position = UDim2.new(0, 0, 0.5, 0)
+		TextHit.Size = UDim2.new(1, 0, 1, 0)
+		TextHit.ZIndex = DropDownOutlinedTextBox.ZIndex
+		TextHit.Font = Enum.Font.SourceSans
+		TextHit.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextHit.TextSize = 14.000
+		TextHit.TextXAlignment = Enum.TextXAlignment.Left
+		
+		back.Name = HttpService:GenerateGUID(false)
+		back.Parent = TextHit
+		back.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		back.BackgroundTransparency = 1.000
+		back.Size = UDim2.new(1, 0, 1, 0)
+		back.ZIndex = DropDownOutlinedTextBox.ZIndex
+		back.Font = Enum.Font.SourceSans
+		back.TextColor3 = Color3.fromRGB(0, 0, 0)
+		back.TextSize = 14.000
+		back.TextXAlignment = Enum.TextXAlignment.Left
+		
+		TextSize.Name = HttpService:GenerateGUID(false)
+		TextSize.Parent = DropDownOutlinedTextBox
+		TextSize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		TextSize.BackgroundTransparency = 1.000
+		TextSize.Size = UDim2.new(1, 0, 1, 0)
+		TextSize.Visible = false
+		TextSize.Font = Enum.Font.SourceSans
+		TextSize.TextColor3 = Color3.fromRGB(0, 0, 0)
+		TextSize.TextSize = 14.000
+		TextSize.TextXAlignment = Enum.TextXAlignment.Left
+		TextSize.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		DropDown.Name = HttpService:GenerateGUID(false)
+		DropDown.Parent = DropDownOutlinedTextBox
+		DropDown.BackgroundColor3 = Color3.fromRGB(112, 112, 112)
+		DropDown.BackgroundTransparency = 0
+		DropDown.BorderSizePixel = 2
+		DropDown.BorderColor3 = Color3.fromRGB(45,45,45)
+		DropDown.AnchorPoint = Vector2.new(0.5,0)
+		DropDown.Position = UDim2.new(0.5, 0, 1, 4)
+		DropDown.Size = UDim2.new(1, 5, 0, 0)
+		DropDown.Visible = false
+		DropDown.ZIndex = DropDownOutlinedTextBox.ZIndex + 2
+		--DropDown.Image = "rbxassetid://1935044829"
+		DropDown.ImageTransparency = 1
+		DropDown.ImageColor3 = Color3.fromRGB(112, 112, 112)
+		DropDown.ScaleType = Enum.ScaleType.Slice
+		DropDown.SliceCenter = Rect.new(8, 8, 248, 248)
+		
+		local UIGradient = Instance.new("UIGradient")
+		UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, ColorGradient1), ColorSequenceKeypoint.new(1, ColorGradient2)}
+		UIGradient.Parent = DropDown
+		UIGradient.Name = HttpService:GenerateGUID(false)
+		table.insert(uiGradients, UIGradient)
+		
+		Holder.Name = HttpService:GenerateGUID(false)
+		Holder.Parent = DropDown
+		Holder.BackgroundColor3 = Color3.fromRGB(112, 112, 112)
+		Holder.BackgroundTransparency = 1.000
+		Holder.BorderSizePixel = 0
+		Holder.ClipsDescendants = true
+		Holder.Size = UDim2.new(1, 0, 1, 0)
+		Holder.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		UIListLayout.Parent = Holder
+		UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+		UIListLayout.CellPadding = UDim2.new(0,0,0,4)
+		UIListLayout.CellSize = UDim2.new(1,-8,0,32)
+		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+		UIListLayout.StartCorner = Enum.StartCorner.TopLeft
+		UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+		
+		UIPadding_2.Parent = Holder
+		UIPadding_2.PaddingBottom = UDim.new(0, 4)
+		UIPadding_2.PaddingTop = UDim.new(0, 4)
+		
+		Icon.Name = HttpService:GenerateGUID(false)
+		Icon.Parent = DropDownOutlinedTextBox
+		Icon.BackgroundTransparency = 1.000
+		Icon.Position = UDim2.new(1, -13, 0.5, -2)
+		Icon.Size = UDim2.new(0, 10, 0, 6)
+		Icon.Image = "http://www.roblox.com/asset/?id=45732894"
+		Icon.ImageColor3 = Color3.fromRGB(35, 35, 35)
+		Icon.ZIndex = DropDownOutlinedTextBox.ZIndex
+		
+		
+		local Color = ColorGradient1
+		local DropButtons = {}
+		local box = DropDownOutlinedTextBox
+		local bar = Bar
+		local round = Instance.new("Frame",bar)
+		local TpBarR = TopBarR
+		local TpBarL = TopBarL
+		
+		local BarR = RBar
+		local BarL = LBar
+		
+		round.BorderSizePixel = 0
+		round.AnchorPoint = Vector2.new(0,0)
+		round.Position = UDim2.new(0,0,0,0)
+		round.Size = UDim2.new(1,0,1,0)
+		round.Name = HttpService:GenerateGUID(false)
+		round.BackgroundColor3 = Color
+		round.ZIndex = DropDownOutlinedTextBox.ZIndex
+		round.BackgroundTransparency = 1
+		
+		local TopR_round = round:Clone()
+		TopR_round.Parent = TpBarR
+		
+		local TopL_round = round:Clone()
+		TopL_round.Parent = TpBarL
+		
+		local BarR_round = round:Clone()
+		BarR_round.Parent = BarR
+		
+		local BarL_round = round:Clone()
+		BarL_round.Parent = BarL
+		
+		local Hit = TextHit
+		Hit.Parent = box
+		Hit.TextScaled = true
+		Hit.Text = text
+		box.TextWrapped = true
+		back.TextColor3 = Color
+		back.TextColor3 = Color
+		back.TextTransparency=1
+		
+		local TextSize = TextSize:Clone()
+		TextSize.Parent = box
+		
+		local Foused = false
+		local Hit_Foused = false
+		local tarns_in = false
+		local tarns_out = false
+		local function box_Changed()
+			if box.PlaceholderText ~= "" then
+				Hit.Size = UDim2.new(0,box.TextBounds.X,1,0)
+				Hit.TextSize = box.TextSize
+				Hit.Text = box.PlaceholderText
+				Hit.TextScaled = true
+				Hit.TextColor3 = box.PlaceholderColor3
+				TextSize.TextSize = box.TextSize
+				TextSize.Text = box.PlaceholderText
+				TextSize.TextColor3 = box.PlaceholderColor3
+				back.TextSize = box.TextSize
+				back.Text = box.PlaceholderText
+				back.TextScaled = true
+				back.TextColor3 = box.PlaceholderColor3
+				back.Font = box.Font
+				back.TextColor3 = Color
+				wait()
+				box.PlaceholderText = ""
+			end
+		end
+		
+		function Focused()
+			Foused = true
+			local Time = 0.3
+			
+			if Hit_Foused == false then
+				Hit_Foused = true
+				Hit:TweenSizeAndPosition(UDim2.new(0, TextSize.TextBounds.X-4, 0, TextSize.TextBounds.Y-4), UDim2.new(0, 0, 0, -2),Enum.EasingDirection.In,Enum.EasingStyle.Quad, Time, true, nil)
+				TpBarR:TweenSize(UDim2.new(1, -(TextSize.TextBounds.X)+12,0,2),Enum.EasingDirection.In,Enum.EasingStyle.Quad, Time, true, nil)
+			end
+			tarns_out = false
+			tarns_in = true
+			local u = 10
+			repeat wait(0.03)
+				if back == nil then break end
+				if back.TextTransparency < 0.01 then 
+					tarns_in = false
+				break end
+				back.TextTransparency = back.TextTransparency-0.1
+				back.TextScaled = true
+				round.BackgroundTransparency = back.TextTransparency
+				TopL_round.BackgroundTransparency = back.TextTransparency
+				TopR_round.BackgroundTransparency = back.TextTransparency
+				BarL_round.BackgroundTransparency = back.TextTransparency
+				BarR_round.BackgroundTransparency = back.TextTransparency
+			until back.TextTransparency < 0.01 or tarns_in == false
+		end
+		box.Focused:Connect(Focused)
+		local function FocusLost()
+			for i,v in pairs(DropButtons) do
+				v.Visible = true
+			end
+				
+			Foused = false
+			local Time = 0.3
+			
+			if Hit_Foused == true and box.Text == "" then
+				Hit_Foused = false
+				Hit:TweenSizeAndPosition(UDim2.new(0, TextSize.TextBounds.X, 1, 0), UDim2.new(0, 0, 0.5, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad, Time, true, nil)
+				TpBarR:TweenSize(UDim2.new(1, 8, 0, 2),Enum.EasingDirection.In,Enum.EasingStyle.Quad, Time-0.04, true, nil)
+			--end
+				tarns_in = false
+				tarns_out = true
+				local u = 10
+				repeat wait(0.03)
+					if back == nil then break end
+					if back.TextTransparency > 0.9 then 
+						tarns_out = false
+					break end
+					back.TextTransparency = back.TextTransparency+0.1
+					back.TextScaled = true
+					round.BackgroundTransparency = back.TextTransparency
+					TopL_round.BackgroundTransparency = back.TextTransparency
+					TopR_round.BackgroundTransparency = back.TextTransparency
+					BarL_round.BackgroundTransparency = back.TextTransparency
+					BarR_round.BackgroundTransparency = back.TextTransparency
+				until back.TextTransparency > 0.9 or tarns_out == false
+			end
+		end
+		
+		box.FocusLost:Connect(FocusLost)
+		box.Changed:Connect(box_Changed)
+		
+		
+		
+		local Main = DropDown
+		local Padding = UIPadding
+		local SizeXOffset = Main.Size.X.Offset
+		local SizeXScale = Main.Size.X.Scale
+		local Time = 300
+		local MouseOn = false
+		
+		Main:GetPropertyChangedSignal("Size"):Connect(function()
+			if Main.Size.Y.Offset == 0 then
+				Main.Visible = false
+			else
+				Main.Visible = true
+			end
+		end)
+		
+		local TweenService = game:GetService("TweenService")
+		local Inico = TweenService:Create(
+			Icon,
+			TweenInfo.new(
+				Time / 1000, 
+				Enum.EasingStyle.Quint, 
+				Enum.EasingDirection.Out, 
+				0,
+				false,
+				0
+			),
+			{ 
+				Rotation = 180;
+			}
+		)
+		local Outico = TweenService:Create(
+			Icon,
+			TweenInfo.new(
+				Time / 1000,
+				Enum.EasingStyle.Quint, 
+				Enum.EasingDirection.Out, 
+				0,
+				false,
+				0
+			),
+			{
+				Rotation = 0;
+			}
+		)
+		
+		Main.MouseEnter:Connect(function()
+			MouseOn = true
+		end)
+		Main.MouseLeave:Connect(function()
+			MouseOn = false
+		end)
+		
+		local function OpenBox()
+			for i,v in pairs(Holder:GetChildren()) do
+				if v:IsA("TextButton") and v.Visible == true then
+					v:Destroy()
+				end
+			end
+			for i,v in pairs(DropButtons) do
+				table.remove(DropButtons, i)
+			end
+			DropButtons = {}
+			list = functionToGetList() or {"Error in grabbing list"}
+
+			for i,v in pairs(list) do
+				ListButton(v, callback)
+			end
+			
+			local childs = {}
+			for i,v in pairs(Holder:GetChildren()) do
+				if v:IsA("TextButton") and v.Visible == true then
+					table.insert(childs, v)
+				end
+			end
+			local AbsoluteContentSizeY = 38*(#childs)
+			Main:TweenSize(UDim2.new(SizeXScale,SizeXOffset,0,AbsoluteContentSizeY+Padding.PaddingBottom.Offset+Padding.PaddingTop.Offset),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,Time / 1000,true,nil)
+			Inico:Play()
+		end
+		
+		local function CloseBox()
+			local found = false
+			for i,v in pairs(list) do
+				if tostring(v) == tostring(box.Text) then
+					found = true
+				end	
+			end
+			if found == false then
+				box.Text = ""
+			else
+				Focused()
+			end
+			Main:TweenSize(UDim2.new(SizeXScale,SizeXOffset,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,Time / 1000,true,nil)
+			Outico:Play()
+		end
+		
+		local save = box.Text
+		box:GetPropertyChangedSignal("Text"):Connect(function()
+			save = box.Text
+			if Foused == false and box.Text == "" then
+				Hit_Foused = false
+				local Time = 0.3
+				Hit:TweenSizeAndPosition(UDim2.new(0, TextSize.TextBounds.X, 1, 0), UDim2.new(0, 0, 0.5, 0),Enum.EasingDirection.InOut,Enum.EasingStyle.Quad, Time, true, nil)
+				TpBarR:TweenSize(UDim2.new(1, 8, 0, 2),Enum.EasingDirection.In,Enum.EasingStyle.Quad, Time-0.04, true, nil)
+			end
+			if Foused == false and box.Text ~= "" then
+				Hit_Foused = false
+				local Time = 0.3
+				Hit:TweenSizeAndPosition(UDim2.new(0, TextSize.TextBounds.X-4, 0, TextSize.TextBounds.Y-4), UDim2.new(0, 0, 0, -2),Enum.EasingDirection.In,Enum.EasingStyle.Quad, Time, true, nil)
+				TpBarR:TweenSize(UDim2.new(1, -(TextSize.TextBounds.X)+12,0,2),Enum.EasingDirection.In,Enum.EasingStyle.Quad, Time, true, nil)
+			end
+			if Foused == true and box.Text ~= "" then
+				for i,a in pairs(Holder:GetChildren()) do
+					if a:IsA("TextButton") then
+						local v = a:FindFirstChildOfClass("TextLabel")
+						if v and v.Text:lower():gsub(" ",""):find(box.Text:lower():gsub(" ","")) then
+							v.Parent.Visible = true
+						elseif v then
+							v.Parent.Visible = false
+						end
+					end
+					OpenBox()
+				end
+			else
+				for i,a in pairs(DropButtons) do
+					if a:IsA("TextButton") then
+						local v = a:FindFirstChildOfClass("TextLabel")
+						if v then
+							v.Parent.Visible = true
+						end
+					end
+				end
+				OpenBox()
+			end
+		end)
+		box_Changed()
+		
+		box.Focused:Connect(OpenBox)
+		
+		box.FocusLost:Connect(CloseBox)
+		
+		
+		ListButton = function(name, callback)
+			local TextButton = Instance.new("TextButton")
+			
+			TextButton.Name = HttpService:GenerateGUID(false)
+			TextButton.Parent = Holder
+			TextButton.BackgroundTransparency = 0
+			TextButton.Size = UDim2.new(1, 0, 0, 32)
+			TextButton.ZIndex = DropDownOutlinedTextBox.ZIndex + 4
+			TextButton.Active = true
+			TextButton.Text = "   "--..name
+			TextButton.Font = Enum.Font.SourceSans
+			TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+			TextButton.TextSize = 14.000
+			TextButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+			TextButton.TextXAlignment = Enum.TextXAlignment.Left
+			TextButton.BorderSizePixel = 0
+			
+			local buttonText = Instance.new("TextLabel", TextButton)
+			buttonText.Name = HttpService:GenerateGUID(false)
+			buttonText.BackgroundTransparency = 1
+			buttonText.Size = UDim2.new(1,0,1,0)
+			buttonText.AnchorPoint = Vector2.new(0.5,0.5)
+			buttonText.Position = UDim2.new(0.5,0,0.5,0)
+			buttonText.ZIndex = TextButton.ZIndex
+			buttonText.Text = "   "..name
+			buttonText.TextColor3 = Color3.new(1, 1, 1)
+			buttonText.TextSize = 15
+			buttonText.TextXAlignment = Enum.TextXAlignment.Left
+			buttonText.Font = options.font
+			
+			local UIGradient = Instance.new("UIGradient")
+			UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, ColorGradient1), ColorSequenceKeypoint.new(1, ColorGradient2)}
+			UIGradient.Parent = TextButton
+			UIGradient.Name = HttpService:GenerateGUID(false)
+			table.insert(uiGradients, UIGradient)
+			
+			--[[local actionbutton = Instance.new("ImageButton", TextButton)
+			actionbutton.BackgroundTransparency = 1
+			actionbutton.Size = UDim2.new(0, 24, 0, 24)
+			actionbutton.AnchorPoint = Vector2.new(0.5,0.5)
+			actionbutton.Position = UDim2.new(0.9, 0, 0.5, 0)
+			actionbutton.ZIndex = TextButton.ZIndex
+			actionbutton.Image = 'rbxassetid://5044249458'
+			actionbutton.ImageTransparency = 1
+			actionbutton.Name = HttpService:GenerateGUID(false)
+		
+			local OPImg = Instance.new("ImageButton", actionbutton)
+			OPImg.BackgroundTransparency = 1
+			OPImg.Size = UDim2.new(1, 0, 1, 0)
+			OPImg.Position = UDim2.new(0, 0, 0, 0)
+			OPImg.ZIndex = actionbutton.ZIndex + 1
+			OPImg.Image = 'http://www.roblox.com/asset/?id=5044275451'
+			OPImg.Name = HttpService:GenerateGUID(false)]]
+			
+			table.insert(DropButtons, buttonText)
+			
+			local clck = function()
+				spawn(function()
+					pcall(callback, name) 
+				end)
+				box.Text = name
+				CloseBox()
+			end
+			
+			TextButton.MouseButton1Down:Connect(clck)
+			--actionbutton.MouseButton1Down:Connect(clck)
+		end
+		
+		table.insert(PhaseOneInstances, DropDownOutlinedTextBox)
+
+		Open()
+
+		return switchactions
+	end
+
 	function elements:AddSwitch(text, callback)
 		local switchactions = {}
 		text = text or "New switch"
