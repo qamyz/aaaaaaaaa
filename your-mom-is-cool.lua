@@ -2,9 +2,6 @@ for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
     v:Disable()
 end
 
-getgenv().CircleVisibility = true
-getgenv().Distance = 1000
-
 local Players = game:GetService("Players")
 local UserInput = game:GetService("UserInputService")
 local HTTP = game:GetService("HttpService")
