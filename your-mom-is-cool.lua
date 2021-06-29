@@ -1,6 +1,4 @@
-for i,v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
-    v:Disable()
-end
+getgenv().CircleVisibility = false
 
 local Players = game:GetService("Players")
 local UserInput = game:GetService("UserInputService")
